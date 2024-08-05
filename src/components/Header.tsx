@@ -1,5 +1,17 @@
-import React from 'react';
-import { AppBar, Toolbar, Typography, Button, useTheme, Box } from '@mui/material';
+import React, { useState } from 'react';
+import { 
+  AppBar, 
+  Toolbar, 
+  Typography, 
+  Button, 
+  useTheme, 
+  Box, 
+  IconButton, 
+  Menu, 
+  MenuItem,
+  useMediaQuery
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 interface HeaderProps {
   setActivePage: (page: string) => void;
@@ -7,6 +19,23 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ setActivePage }) => {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handlePageChange = (page: string) => {
+    setActivePage(page);
+    handleClose();
+  };
+
+  const pages = ['Home', 'About', 'Projects', 'Education', 'Certifications', 'Skills', 'Contact'];
 
   return (
     <AppBar position="fixed" color={theme.palette.mode === 'light' ? 'primary' : 'default'} elevation={0}>
@@ -14,15 +43,52 @@ const Header: React.FC<HeaderProps> = ({ setActivePage }) => {
         <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
           Ibrahim Nehme
         </Typography>
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <Button color="inherit" onClick={() => setActivePage('Home')}>Home</Button>
-          <Button color="inherit" onClick={() => setActivePage('About')}>About</Button>
-          <Button color="inherit" onClick={() => setActivePage('Projects')}>Projects</Button>
-          <Button color="inherit" onClick={() => setActivePage('Education')}>Education</Button>
-          <Button color="inherit" onClick={() => setActivePage('Certifications')}>Certifications</Button>
-          <Button color="inherit" onClick={() => setActivePage('Skills')}>Skills</Button>
-          <Button color="inherit" onClick={() => setActivePage('Contact')}>Contact</Button>
-        </Box>
+        {isMobile ? (
+          <>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleMenu}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={() => handlePageChange(page)}>
+                  {page}
+                </MenuItem>
+              ))}
+            </Menu>
+          </>
+        ) : (
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            {pages.map((page) => (
+              <Button 
+                key={page}
+                color="inherit" 
+                onClick={() => setActivePage(page)}
+              >
+                {page}
+              </Button>
+            ))}
+          </Box>
+        )}
       </Toolbar>
     </AppBar>
   );
