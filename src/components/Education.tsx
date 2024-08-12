@@ -10,7 +10,7 @@ const Education: React.FC = () => {
       <Typography variant="h2" gutterBottom color="primary">
         Education
       </Typography>
-      <Paper elevation={3} sx={{ p: 3, position: 'relative', ml: 4 }}>
+      <Paper elevation={3} sx={{ p: 3, position: 'relative'}}>
         
         <SchoolIcon sx={{ position: 'absolute', left: 10, top: 16, color: 'primary.main', fontSize: 40 }} />
         <Box sx={{display:'flex',flexDirection:'column',ml:5}}>

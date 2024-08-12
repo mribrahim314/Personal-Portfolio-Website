@@ -63,7 +63,7 @@ const App: React.FC = () => {
   const renderPage = () => {
     switch (activePage) {
       case 'Home':
-        return <Home />;
+        return <Home setActivePage = {setActivePage} />;
       case 'About':
         return <About />;
       case 'Projects':
@@ -77,7 +77,7 @@ const App: React.FC = () => {
       case 'Contact':
         return <Contact />;
       default:
-        return <Home />;
+        return <Home setActivePage = {setActivePage}/>;
     }
   };
 

@@ -2,7 +2,15 @@ import React from 'react';
 import { Typography, Box, Button } from '@mui/material';
 import { motion } from 'framer-motion';
 
-const Home: React.FC = () => {
+interface props{
+  setActivePage:React.Dispatch<React.SetStateAction<string>>
+}
+
+const Home: React.FC<props> = ({setActivePage}:props) => {
+
+  const handleclick = ()=>{
+      setActivePage("Projects")
+  }
   
 
   return (
@@ -28,7 +36,7 @@ const Home: React.FC = () => {
         <Typography variant="body1" paragraph sx={{ maxWidth: '600px', margin: 'auto', mb: 4 }}>
           Passionate about designing and implementing innovative solutions in the world of technology.
         </Typography>
-        <Button variant="contained" color="primary" size="large">
+        <Button variant="contained" color="primary" size="large" onClick={handleclick}>
           View My Projects
         </Button>
       </motion.div>
